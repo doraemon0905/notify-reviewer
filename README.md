@@ -48,7 +48,8 @@ Select Copy Member ID
 
 Go to the Channel you want to send message. Click to the name of channel on the top
 
-![image](https://github.com/user-attachments/assets/50694306-1304-4de2-bf79-f7e094255239)
+![image](https://github.com/user-attachments/assets/bfc4cf2e-b799-4468-b28e-81ad5f7a9a0e)
+
 
 
 
