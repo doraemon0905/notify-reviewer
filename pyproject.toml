@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "notify-reviewer"
+version = "0.1.0"
+description = "This is bot for notify reviewers for code review in channel of Employment Hero"
+authors = ["Doraemon <bradley.nguyen@employmenthero.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+slack-sdk = "^3.33.1"
+python-dotenv = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
