@@ -110,6 +110,9 @@ def get_pr_details(pr_url):
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
 
     response = requests.get(pr_api_url, headers=headers).json()
+    state = response.get('state')
+    if state != 'open':
+        raise ValueError("Pull Request is not open.")
 
     title = response.get('title', 'No title')
 
@@ -121,7 +124,7 @@ def get_pr_details(pr_url):
     if not contains_reviewer(reviewers, "@squad-alchemist"):
         reviewers += ", @squad-alchemist"
 
-    external_reviewers = input("Do you want to add any external reviewers (comma-separated)? ")
+    external_reviewers = input(f"We already requested review to {reviewers}. Do you want to add any external reviewers (comma-separated)? ")
     if external_reviewers:
         external_reviewers = ", ".join([f"@{reviewer.strip()}" for reviewer in external_reviewers.split(",")])
         reviewers += f", {external_reviewers}"
