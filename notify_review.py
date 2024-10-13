@@ -46,7 +46,8 @@ EXTERNAL_ID_MAP = {
     "@squad-elysium": "S04564E081G",
     "@squad-enigma": "S061H1FTY2Y",
     "@squad-expendables": "S0619S440TA",
-    "@squad-saitama": "S077GBH64FL"
+    "@squad-saitama": "S077GBH64FL",
+    "@engineering-managers": "S05FPFUQKK6",
 }
 
 def convert_reviewers_to_subteam_format(reviewers):
