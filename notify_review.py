@@ -8,9 +8,9 @@ import logging
 # Load environment variables from .env file
 load_dotenv()
 
-GITHUB_TOKEN=os.getenv("GITHUB_TOKEN")
-BOT_TOKEN =os.getenv("BOT_TOKEN")
-CHANNEL_ID =os.getenv("CHANNEL_ID")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHANNEL_ID = os.getenv("CHANNEL_ID")
 USER_ID = os.getenv("USER_ID")
 
 client = WebClient(token=BOT_TOKEN)
