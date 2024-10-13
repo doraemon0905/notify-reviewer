@@ -31,6 +31,12 @@ source ~/.zshrc
 ```
 Now, you can execute the notifyreviewer command in your terminal to run the Python script.
 
+# How to create github token
+
+Please follow the link:
+
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+
 # How to get USER_ID on Slack
 Click on your profile, select Profile
 
@@ -49,7 +55,3 @@ Select Copy Member ID
 Go to the Channel you want to send message. Click to the name of channel on the top
 
 ![image](https://github.com/user-attachments/assets/bfc4cf2e-b799-4468-b28e-81ad5f7a9a0e)
-
-
-
-
