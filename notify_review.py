@@ -64,6 +64,15 @@ def send_to_slack(title, reviewers, pr_url, email):
     formatted_reviewers = convert_reviewers_to_subteam_format(reviewers)
 
     message = f"Hi team, please help <@{USER_ID}> review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}"
+
+    if not CHANNEL_ID:
+        raise ValueError("Invalid CHANNEL_ID.")
+    
+    if not BOT_TOKEN:
+        raise ValueError("Invalid BOT_TOKEN.")
+    
+    if not USER_ID:
+        raise ValueError("Invalid USER_ID.")
     try:
         # Call the chat.postMessage method using the WebClient
         result = client.chat_postMessage(
@@ -88,6 +97,9 @@ def contains_reviewer(reviewers, reviewer_to_check):
     return reviewer_to_check in reviewers
 
 def get_pr_details(pr_url):
+    if not GITHUB_TOKEN:
+        raise ValueError("Invalid GITHUB_TOKEN.")
+    
     match = re.match(r'https://github.com/([^/]+)/([^/]+)/pull/(\d+)', pr_url)
     if not match:
         raise ValueError("Invalid GitHub Pull Request URL format.")
