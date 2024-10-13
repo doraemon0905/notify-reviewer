@@ -30,7 +30,23 @@ EXTERNAL_ID_MAP = {
     "@squad-apollo": "S06R3DUBRT4",
     "@squad-azem": "S074RPT07AA",
     "@squad-hatha": "S032MQJ3MJ5",
-    "@squad-architects": "S03C13KS6GY"
+    "@squad-architects": "S03C13KS6GY",
+    "@ai-hero-bot": "S06N42PMKEF",
+    "@squad-ada": "S06EPL3UE8Y",
+    "@squad-alpaca": "S04932DNQNA",
+    "@squad-andromeda": "S01EL311C1W",
+    "@squad-august": "S02EB5MU2PL",
+    "@squad-autobot": "SPM19LF8B",
+    "@squad-banh-mi": "S02DQS49Z40",
+    "@squad-decepticon": "S05ST2MAC84",
+    "@squad-dragonx": "S06E1954ZFY",
+    "@squad-dynamos": "S075D609A57",
+    "@squad-entropy": "S05LZGTM75E",
+    "@squad-eagles": "S07FKGJL8NM",
+    "@squad-elysium": "S04564E081G",
+    "@squad-enigma": "S061H1FTY2Y",
+    "@squad-expendables": "S0619S440TA",
+    "@squad-saitama": "S077GBH64FL"
 }
 
 def convert_reviewers_to_subteam_format(reviewers):
