@@ -115,7 +115,6 @@ def match_files_to_owners(changed_files, codeowners):
         if filename == "CODEOWNERS" or filename.startswith("db/"):
             if filename.startswith("db/"):
                 file_owners[filename] = ["squad-alchemist"]
-            
             if filename == "CODEOWNERS":
                 file_owners[filename] = ["squad-eternals"]
         else:
