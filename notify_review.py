@@ -110,7 +110,7 @@ def get_pr_details(pr_url):
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(pr_api_url, headers=headers).json()
 
-    if response.get('state') != 'open':
+    if response.get("state") != "open":
         raise ValueError("Pull Request is not open.")
 
     title = response.get("title", "No title")
