@@ -52,6 +52,7 @@ EXTERNAL_ID_MAP = {
     "@engineering-managers": "S05FPFUQKK6",
 }
 
+
 def validate_env_vars():
     if not GITHUB_TOKEN:
         raise ValueError("Invalid GITHUB_TOKEN.")
@@ -60,6 +61,7 @@ def validate_env_vars():
     if not CHANNEL_ID:
         raise ValueError("Invalid CHANNEL_ID.")
 
+
 def convert_reviewers_to_subteam_format(reviewers):
     subteams = []
     for reviewer in reviewers.split(", "):
@@ -67,10 +69,11 @@ def convert_reviewers_to_subteam_format(reviewers):
         subteams.append(f"<!subteam^{external_id}>" if external_id else reviewer)
     return " ".join(subteams)
 
+
 def find_user_id_by_email(email):
     try:
         result = client.users_lookupByEmail(email=email)
-        return result['user']['id']
+        return result["user']["id"]
     except SlackApiError as e:
         logger.error(f"Error looking up user: {e}")
 
@@ -85,17 +88,20 @@ def send_to_slack(title, reviewers, pr_url, email):
     except SlackApiError as e:
         logger.error(f"Error posting message: {e}")
 
+
 def get_user_email(user_login):
     user_url = f"https://api.github.com/users/{user_login}"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     user_response = requests.get(user_url, headers=headers).json()
-    return user_response.get('email', 'No public email')
+    return user_response.get("email", "No public email")
+
 
 def contains_reviewer(reviewers, reviewer_to_check):
     return reviewer_to_check in reviewers
 
+
 def get_pr_details(pr_url):
-    match = re.match(r'https://github.com/([^/]+)/([^/]+)/pull/(\d+)', pr_url)
+    match = re.match(r"https://github.com/([^/]+)/([^/]+)/pull/(\d+)", pr_url)
     if not match:
         raise ValueError("Invalid GitHub Pull Request URL format.")
     
@@ -107,7 +113,7 @@ def get_pr_details(pr_url):
     if response.get('state') != 'open':
         raise ValueError("Pull Request is not open.")
 
-    title = response.get('title', 'No title')
+    title = response.get("title", "No title")
     reviewers = [f"@{team['name']}" for team in response.get('requested_teams', [])]
     reviewers = ", ".join(reviewers)
 
@@ -121,10 +127,11 @@ def get_pr_details(pr_url):
         external_reviewers = ", ".join([f"@{reviewer.strip()}" for reviewer in external_reviewers.split(",")])
         reviewers += f", {external_reviewers}"
 
-    user_login = response['user']['login']
+    user_login = response["user"]["login"]
     email = get_user_email(user_login)
 
     send_to_slack(title, reviewers, pr_url, email)
+
 
 def main():
     validate_env_vars()
