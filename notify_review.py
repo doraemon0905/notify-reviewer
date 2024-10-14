@@ -18,41 +18,6 @@ CHANNEL_ID = os.getenv("CHANNEL_ID")
 client = WebClient(token=BOT_TOKEN)
 logger = logging.getLogger(__name__)
 
-# Mapping external ID to reviewer
-EXTERNAL_ID_MAP = {
-    "@squad-konohagakure": "SQ0AW4MST",
-    "@squad-eternals": "S06DU7PTYLW",
-    "@squad-alchemist": "S07EBNZ4PRB",
-    "@squad-titans": "S07H0R5EUH0",
-    "@squad-helios": "S01T1977RBK",
-    "@squad-jokers": "SPQHMGGRF",
-    "@squad-asgardians": "SPY1HGKN0",
-    "@squad-double-espresso": "S02CKDU0XGF",
-    "@squad-platform": "SESGW2A5A",
-    "@squad-apollo": "S06R3DUBRT4",
-    "@squad-azem": "S074RPT07AA",
-    "@squad-hatha": "S032MQJ3MJ5",
-    "@squad-architects": "S03C13KS6GY",
-    "@ai-hero-bot": "S06N42PMKEF",
-    "@squad-ada": "S06EPL3UE8Y",
-    "@squad-alpaca": "S04932DNQNA",
-    "@squad-andromeda": "S01EL311C1W",
-    "@squad-august": "S02EB5MU2PL",
-    "@squad-autobot": "SPM19LF8B",
-    "@squad-banh-mi": "S02DQS49Z40",
-    "@squad-decepticon": "S05ST2MAC84",
-    "@squad-dragonx": "S06E1954ZFY",
-    "@squad-dynamos": "S075D609A57",
-    "@squad-entropy": "S05LZGTM75E",
-    "@squad-eagles": "S07FKGJL8NM",
-    "@squad-elysium": "S04564E081G",
-    "@squad-enigma": "S061H1FTY2Y",
-    "@squad-expendables": "S0619S440TA",
-    "@squad-saitama": "S077GBH64FL",
-    "@engineering-managers": "S05FPFUQKK6",
-}
-
-
 def validate_env_vars():
     if not GITHUB_TOKEN:
         raise ValueError("Invalid GITHUB_TOKEN.")
@@ -61,11 +26,10 @@ def validate_env_vars():
     if not CHANNEL_ID:
         raise ValueError("Invalid CHANNEL_ID.")
 
-
-def convert_reviewers_to_subteam_format(reviewers):
+def convert_reviewers_to_subteam_format(reviewers, usergroup_map):
     subteams = []
     for reviewer in reviewers.split(", "):
-        external_id = EXTERNAL_ID_MAP.get(reviewer.strip())
+        external_id = usergroup_map.get(reviewer.strip())
         subteams.append(f"<!subteam^{external_id}>" if external_id else reviewer)
     return " ".join(subteams)
 
@@ -78,9 +42,9 @@ def find_user_id_by_email(email):
         logger.error(f"Error looking up user: {e}")
 
 
-def send_to_slack(title, reviewers, pr_url, email):
+def send_to_slack(title, reviewers, pr_url, email, usergroup_map):
     user_id = find_user_id_by_email(email)
-    formatted_reviewers = convert_reviewers_to_subteam_format(reviewers)
+    formatted_reviewers = convert_reviewers_to_subteam_format(reviewers, usergroup_map)
     message = f"Hi team, please help <@{user_id}> review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}"
 
     try:
@@ -133,9 +97,18 @@ def get_pr_details(pr_url):
 
     user_login = response["user"]["login"]
     email = get_user_email(user_login)
+    usergroup_map = get_slack_usergroups()
 
-    send_to_slack(title, reviewers, pr_url, email)
+    send_to_slack(title, reviewers, pr_url, email, usergroup_map)
 
+def get_slack_usergroups():
+    try:
+        result = client.usergroups_list()
+        usergroups = {f"@{ug['handle']}": ug['id'] for ug in result["usergroups"]}
+        return usergroups
+    except SlackApiError as e:
+        logger.error(f"Error fetching Slack user groups: {e}")
+        return {}
 
 def main():
     validate_env_vars()
