@@ -13,7 +13,6 @@ load_dotenv()
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHANNEL_ID = os.getenv("CHANNEL_ID")
-USER_ID = os.getenv("USER_ID")
 
 # Initialize Slack client and logger
 client = WebClient(token=BOT_TOKEN)
@@ -60,8 +59,6 @@ def validate_env_vars():
         raise ValueError("Invalid BOT_TOKEN.")
     if not CHANNEL_ID:
         raise ValueError("Invalid CHANNEL_ID.")
-    if not USER_ID:
-        raise ValueError("Invalid USER_ID.")
 
 def convert_reviewers_to_subteam_format(reviewers):
     subteams = []
@@ -70,9 +67,17 @@ def convert_reviewers_to_subteam_format(reviewers):
         subteams.append(f"<!subteam^{external_id}>" if external_id else reviewer)
     return " ".join(subteams)
 
+def find_user_id_by_email(email):
+    try:
+        result = client.users_lookupByEmail(email=email)
+        return result['user']['id']
+    except SlackApiError as e:
+        logger.error(f"Error looking up user: {e}")
+
 def send_to_slack(title, reviewers, pr_url, email):
+    user_id = find_user_id_by_email(email)
     formatted_reviewers = convert_reviewers_to_subteam_format(reviewers)
-    message = f"Hi team, please help <@{USER_ID}> review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}"
+    message = f"Hi team, please help <@{user_id}> review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}"
 
     try:
         result = client.chat_postMessage(channel=CHANNEL_ID, text=message)
