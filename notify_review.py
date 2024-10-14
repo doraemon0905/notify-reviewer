@@ -77,6 +77,7 @@ def find_user_id_by_email(email):
     except SlackApiError as e:
         logger.error(f"Error looking up user: {e}")
 
+
 def send_to_slack(title, reviewers, pr_url, email):
     user_id = find_user_id_by_email(email)
     formatted_reviewers = convert_reviewers_to_subteam_format(reviewers)
@@ -104,7 +105,6 @@ def get_pr_details(pr_url):
     match = re.match(r"https://github.com/([^/]+)/([^/]+)/pull/(\d+)", pr_url)
     if not match:
         raise ValueError("Invalid GitHub Pull Request URL format.")
-    
     
     organization, repo, pr_number = match.groups()
     pr_api_url = f"https://api.github.com/repos/{organization}/{repo}/pulls/{pr_number}"
@@ -149,6 +149,7 @@ def main():
     else:
         print("Invalid Pull Request URL. Please provide a valid GitHub PR URL.")
         exit(1)
+
 
 if __name__ == "__main__":
     main()
