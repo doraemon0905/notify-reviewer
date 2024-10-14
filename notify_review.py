@@ -120,10 +120,13 @@ def match_files_to_owners(changed_files, codeowners):
             if filename in codeowners:
                 file_owners[filename] = codeowners[filename]
             else:
-                folder_path = filename.rsplit("/", 1)[0] + "/"
-                if folder_path in codeowners:
-                    file_owners[filename] = codeowners[folder_path]
-                else:
+                folder_matched = False
+                for path, owners in codeowners.items():
+                    if path.endswith("/") and filename.startswith(path):
+                        file_owners[filename] = owners
+                        folder_matched = True
+                        break
+                if not folder_matched:
                     continue
     return file_owners
 
