@@ -113,7 +113,11 @@ def match_files_to_owners(changed_files, codeowners):
     for file_info in changed_files:
         filename = file_info["filename"]
         if filename == "CODEOWNERS" or filename.startswith("db/"):
-            file_owners[filename] = ["squad-eternals"]
+            if filename.startswith("db/"):
+                file_owners[filename] = ["squad-alchemist"]
+            
+            if filename == "CODEOWNERS":
+                file_owners[filename] = ["squad-eternals"]
         else:
             file_owners[filename] = codeowners.get(filename, [])
     return file_owners
