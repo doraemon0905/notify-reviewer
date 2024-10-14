@@ -144,7 +144,7 @@ def get_pr_details(pr_url):
     title = response.get("title", "No title")
     reviewers = (
         get_reviewers_ats(organization, repo, pr_number)
-        if repo == "ats" 
+        if repo == "ats"
         else ", ".join(
             [f"@{team['name']}" for team in response.get("requested_teams", [])]
         )
@@ -153,7 +153,9 @@ def get_pr_details(pr_url):
     if not contains_reviewer(reviewers, "@squad-eternals"):
         reviewers += ", @squad-eternals"
 
-    external_reviewers = input(f"We already requested review to {reviewers}. Do you want to add any external reviewers (comma-separated)? ")
+    external_reviewers = input(
+        f"We already requested review to {reviewers}. Do you want to add any external reviewers (comma-separated)? "
+    )
     if external_reviewers:
         reviewers += ", " + ", ".join(
             [f"@{reviewer.strip()}" for reviewer in external_reviewers.split(",")]
@@ -165,6 +167,7 @@ def get_pr_details(pr_url):
 
     send_to_slack(title, reviewers, pr_url, email, usergroup_map)
 
+
 def get_slack_usergroups():
     try:
         result = client.usergroups_list()
@@ -172,6 +175,7 @@ def get_slack_usergroups():
     except SlackApiError as e:
         logger.error(f"Error fetching Slack user groups: {e}")
         return {}
+
 
 def main():
     validate_env_vars()
@@ -184,5 +188,7 @@ def main():
     else:
         print("Invalid Pull Request URL. Please provide a valid GitHub PR URL.")
         exit(1)
+
+
 if __name__ == "__main__":
     main()
