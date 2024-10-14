@@ -73,7 +73,7 @@ def convert_reviewers_to_subteam_format(reviewers):
 def find_user_id_by_email(email):
     try:
         result = client.users_lookupByEmail(email=email)
-        return result["user']["id"]
+        return result["user"]["id"]
     except SlackApiError as e:
         logger.error(f"Error looking up user: {e}")
 
