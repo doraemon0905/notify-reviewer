@@ -105,6 +105,7 @@ def get_pr_details(pr_url):
     if not match:
         raise ValueError("Invalid GitHub Pull Request URL format.")
     
+    
     organization, repo, pr_number = match.groups()
     pr_api_url = f"https://api.github.com/repos/{organization}/{repo}/pulls/{pr_number}"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
@@ -114,7 +115,7 @@ def get_pr_details(pr_url):
         raise ValueError("Pull Request is not open.")
 
     title = response.get("title", "No title")
-    reviewers = [f"@{team['name']}" for team in response.get('requested_teams', [])]
+    reviewers = [f"@{team['name']}" for team in response.get("requested_teams", [])]
     reviewers = ", ".join(reviewers)
 
     if not contains_reviewer(reviewers, "@squad-eternals"):
@@ -122,9 +123,13 @@ def get_pr_details(pr_url):
     if not contains_reviewer(reviewers, "@squad-alchemist"):
         reviewers += ", @squad-alchemist"
 
-    external_reviewers = input(f"We already requested review to {reviewers}. Do you want to add any external reviewers (comma-separated)? ")
+    external_reviewers = input(
+        f"We already requested review to {reviewers}. Do you want to add any external reviewers (comma-separated)? "
+    )
     if external_reviewers:
-        external_reviewers = ", ".join([f"@{reviewer.strip()}" for reviewer in external_reviewers.split(",")])
+        external_reviewers = ", ".join(
+            [f"@{reviewer.strip()}" for reviewer in external_reviewers.split(",")]
+        )
         reviewers += f", {external_reviewers}"
 
     user_login = response["user"]["login"]

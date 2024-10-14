@@ -12,7 +12,7 @@ CHANNEL_ID=The ID of channel you want to send message
 
 # Setup alias on zshrc
 
-Run command 
+Run command
 ```
 vi ~/.zshrc
 ```
