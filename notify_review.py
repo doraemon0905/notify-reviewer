@@ -40,7 +40,6 @@ def convert_reviewers_to_subteam_format(reviewers, usergroup_map):
             external_id = SPECIFIC_CASES[reviewer]
         else:
             external_id = usergroup_map.get(reviewer.strip())
-        
         subteams.append(f"<!subteam^{external_id}>" if external_id else reviewer)
     return " ".join(subteams)
 
@@ -57,7 +56,6 @@ def send_to_slack(title, reviewers, pr_url, email, usergroup_map):
     user_id = ""
     if email:
         user_id = find_user_id_by_email(email)
-    
     formatted_reviewers = convert_reviewers_to_subteam_format(reviewers, usergroup_map)
     if not user_id:
         message = f"Hi team, please help review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}"
