@@ -2,7 +2,7 @@
 This is bot for notify reviewers for code review in channel of Employment Hero
 
 # How to setup
-Create .env file on this project to define 
+Create .env file on this project to define
 
 ```
 GITHUB_TOKEN=Your personal git hub token with permission to view Pull Request, View User info
@@ -12,7 +12,7 @@ CHANNEL_ID=The ID of channel you want to send message
 
 # Setup alias on zshrc
 
-Run command 
+Run command
 ```
 vi ~/.zshrc
 ```
