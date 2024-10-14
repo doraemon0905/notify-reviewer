@@ -103,10 +103,8 @@ def contains_reviewer(reviewers, reviewer_to_check):
 
 def get_pr_details(pr_url):
     match = re.match(r"https://github.com/([^/]+)/([^/]+)/pull/(\d+)", pr_url)
-    
     if not match:
         raise ValueError("Invalid GitHub Pull Request URL format.")
-        
     organization, repo, pr_number = match.groups()
     pr_api_url = f"https://api.github.com/repos/{organization}/{repo}/pulls/{pr_number}"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
