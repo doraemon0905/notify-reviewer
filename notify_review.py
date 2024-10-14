@@ -98,8 +98,6 @@ def get_pr_details(pr_url):
 
     if not contains_reviewer(reviewers, "@squad-eternals"):
         reviewers += ", @squad-eternals"
-    if not contains_reviewer(reviewers, "@squad-alchemist"):
-        reviewers += ", @squad-alchemist"
 
     external_reviewers = input(
         f"We already requested review to {reviewers}. Do you want to add any external reviewers (comma-separated)? "
