@@ -9,6 +9,14 @@ GITHUB_TOKEN=Your personal git hub token with permission to view Pull Request, V
 BOT_TOKEN=Token of Slack Bot
 CHANNEL_ID=The ID of channel you want to send message
 ```
+# Update public profile
+
+Go to Setting profile https://github.com/settings/profile
+
+In the field: Public email, set public email is a email of Employment Hero
+
+![image](https://github.com/user-attachments/assets/6085aee4-12ac-4bc7-be9e-80281107c668)
+
 
 # Setup alias on zshrc
 
