@@ -18,6 +18,7 @@ CHANNEL_ID = os.getenv("CHANNEL_ID")
 client = WebClient(token=BOT_TOKEN)
 logger = logging.getLogger(__name__)
 
+
 def validate_env_vars():
     if not GITHUB_TOKEN:
         raise ValueError("Invalid GITHUB_TOKEN.")
@@ -25,6 +26,7 @@ def validate_env_vars():
         raise ValueError("Invalid BOT_TOKEN.")
     if not CHANNEL_ID:
         raise ValueError("Invalid CHANNEL_ID.")
+
 
 def convert_reviewers_to_subteam_format(reviewers, usergroup_map):
     subteams = []
@@ -101,10 +103,11 @@ def get_pr_details(pr_url):
 
     send_to_slack(title, reviewers, pr_url, email, usergroup_map)
 
+
 def get_slack_usergroups():
     try:
         result = client.usergroups_list()
-        usergroups = {f"@{ug['handle']}": ug['id'] for ug in result["usergroups"]}
+        usergroups = {f"@{ug['handle']}": ug["id"] for ug in result["usergroups"]}
         return usergroups
     except SlackApiError as e:
         logger.error(f"Error fetching Slack user groups: {e}")
