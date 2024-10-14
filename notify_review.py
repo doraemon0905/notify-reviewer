@@ -19,6 +19,11 @@ client = WebClient(token=BOT_TOKEN)
 logger = logging.getLogger(__name__)
 
 
+SPECIFIC_CASES = {
+    "@ai-hero-bot": "S06N42PMKEF"  # Example: Slack ID for @ai-hero-bot is hardcoded to "ABC"
+}
+
+
 def validate_env_vars():
     if not GITHUB_TOKEN:
         raise ValueError("Invalid GITHUB_TOKEN.")
@@ -31,7 +36,11 @@ def validate_env_vars():
 def convert_reviewers_to_subteam_format(reviewers, usergroup_map):
     subteams = []
     for reviewer in reviewers.split(", "):
-        external_id = usergroup_map.get(reviewer.strip())
+        if reviewer in SPECIFIC_CASES:
+            external_id = SPECIFIC_CASES[reviewer]
+        else:
+            external_id = usergroup_map.get(reviewer.strip())
+        
         subteams.append(f"<!subteam^{external_id}>" if external_id else reviewer)
     return " ".join(subteams)
 
@@ -45,9 +54,16 @@ def find_user_id_by_email(email):
 
 
 def send_to_slack(title, reviewers, pr_url, email, usergroup_map):
-    user_id = find_user_id_by_email(email)
+    user_id = ''
+    if email:
+        user_id = find_user_id_by_email(email)
+    
     formatted_reviewers = convert_reviewers_to_subteam_format(reviewers, usergroup_map)
-    message = f"Hi team, please help <@{user_id}> review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}"
+    
+    if not user_id:
+        message = f"Hi team, please help review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}"
+    else:
+        message = f"Hi team, please help <@{user_id}> review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}"
 
     try:
         result = client.chat_postMessage(channel=CHANNEL_ID, text=message)
@@ -112,6 +128,7 @@ def get_slack_usergroups():
     except SlackApiError as e:
         logger.error(f"Error fetching Slack user groups: {e}")
         return {}
+
 
 def main():
     validate_env_vars()
