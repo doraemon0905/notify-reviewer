@@ -65,7 +65,7 @@ def find_user_id_by_email(email):
 def send_to_slack(title, reviewers, pr_url, email, usergroup_map):
     user_id = find_user_id_by_email(email) if email else ""
     formatted_reviewers = convert_reviewers_to_subteam_format(reviewers, usergroup_map)
-    message = f"Hi team, please help {'<@' + user_id + '> ' if user_id else ''}review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}"
+    message = f"Hi team, please help {'<@' + user_id + '> ' if user_id else ''}review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}\nThank you! :pepe_love:"
 
     try:
         result = client.chat_postMessage(channel=CHANNEL_ID, text=message)
