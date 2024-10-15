@@ -68,8 +68,7 @@ def send_to_slack(title, reviewers, pr_url, email, usergroup_map):
     message = f"Hi team, please help {'<@' + user_id + '> ' if user_id else ''}review this PR {pr_url} \nSummary: {title} \ncc {formatted_reviewers}\nThank you! :pepe_love:"
 
     try:
-        result = client.chat_postMessage(channel=CHANNEL_ID, text=message)
-        logger.info(result)
+        return client.chat_postMessage(channel=CHANNEL_ID, text=message)
     except SlackApiError as e:
         logger.error(f"Error posting message: {e}")
 
@@ -194,11 +193,11 @@ def main():
     pr_url = input("Enter the Pull Request URL: ")
 
     if re.match(r"^https://github.com/[^/]+/[^/]+/pull/\d+$", pr_url):
-        print("Processing Pull Request...")
+        logger.info("Processing Pull Request...")
         get_pr_details(pr_url)
-        print("Notification sent to Slack!")
+        logger.info("Notification sent to Slack!")
     else:
-        print("Invalid Pull Request URL. Please provide a valid GitHub PR URL.")
+        logger.error("Invalid Pull Request URL. Please provide a valid GitHub PR URL.")
         exit(1)
 
 
