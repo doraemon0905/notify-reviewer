@@ -1,5 +1,5 @@
 # notify-reviewer
-This is bot for notify reviewers for code review in channel of Employment Hero
+This is bot for notify reviewers for code review in channel of Slack
 
 # How to setup
 Create .env file on this project to define
