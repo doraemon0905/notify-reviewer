@@ -13,7 +13,7 @@ CHANNEL_ID=The ID of channel you want to send message
 
 Go to Setting profile https://github.com/settings/profile
 
-In the field: Public email, set public email is a email of Employment Hero
+In the field: Public email, set public email is a email of Slack
 
 ![image](https://github.com/user-attachments/assets/6085aee4-12ac-4bc7-be9e-80281107c668)
 
